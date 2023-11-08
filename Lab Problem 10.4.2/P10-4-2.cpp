@@ -3,48 +3,87 @@
 // November 8th of 2023
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
+bool isNumeric(string s);
+bool isCorrectLength(string s);
+void convert2Digits(string s, int digits[]);
 bool isCardValid(int digits[], int size);
+
+const int SIZE = 16;
 
 int main(void)
 {
-	const int SIZE = 8;
 	int arr[SIZE];
-	int n;
+	string cardInput;
 
 	while (true)
 	{
-		cout << "Enter 8-digit credit card # or Q to quit: ";
-		cin >> n;
-		if (cin.fail())
+		cout << "Enter 16-digit credit card # or Q to quit: ";
+		getline(cin, cardInput);
+		if (cardInput == "Q")
 			break;
-
-		for (int i = SIZE - 1; i >= 0; i--)
+		if (!isNumeric(cardInput))
 		{
-			arr[i] = n % 10;
-			n /= 10;
+			cout << "Error - card number must contain only digits." << endl << endl;
+			continue;
 		}
-
+		if (!isCorrectLength(cardInput))
+		{
+			cout << "Error - card number must contain 16 digits." << endl << endl;
+			continue;
+		}
+		convert2Digits(cardInput, arr);
 		if (isCardValid(arr, SIZE))
 		{
-			cout << "Card is valid." << endl;
+			cout << "Card is valid." << endl << endl;
 		}
 		else
 		{
-			cout << "Card is not valid." << endl;
+			cout << "Card is not valid." << endl << endl;
 		}
-
-		for (int i = 0; i < SIZE; i++)
-		{
-			cout << arr[i] << endl;
-		}
-
-		cout << endl;
 	}
 
 	return 0;
+}
+
+bool isNumeric(string s)
+{
+	for (int i = 0; i < s.length(); i++)
+	{
+		switch (s[i])
+		{
+		case '0': break;
+		case '1': break;
+		case '2': break;
+		case '3': break;
+		case '4': break;
+		case '5': break;
+		case '6': break;
+		case '7': break;
+		case '8': break;
+		case '9': break;
+		default: return false;
+		}
+	}
+	return true;
+}
+
+bool isCorrectLength(string s)
+{
+	if (s.length() == SIZE)
+		return true;
+	return false;
+}
+
+void convert2Digits(string s, int digits[])
+{
+	for (int i = 0; i < s.length(); i++)
+	{
+		digits[i] = s[i] - 48;
+	}
 }
 
 bool isCardValid(int digits[], int size)
